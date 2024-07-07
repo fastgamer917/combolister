@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-@&)lr)x3)9(=*$n*db!2=k$g_bh6=q(k@$%^@g9(j+w@d5qx5e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'combosearcher',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +75,21 @@ WSGI_APPLICATION = 'combolister.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'combolister',
+        'USER': 'admin',
+        'PASSWORD': '',
+        'HOST': 'database-1.chqqo0g666ee.eu-north-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
