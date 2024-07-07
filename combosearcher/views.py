@@ -19,10 +19,13 @@ def upload_combos(request):
         print(f"Running Chunks: {running_chunk}/{len(chunks)}")
         to_bulk_create = []
         for line in chunk:
-            line_split = line.split(',')
-            url = line_split[0]
-            username = line_split[1]
-            password = line_split[2]
+            try:
+                line_split = line.split(',')
+                url = line_split[0]
+                username = line_split[1]
+                password = line_split[2]
+            except IndexError:
+                continue
             to_bulk_create.append(Combos(url=url, username=username, password=password))
         objs = Combos.objects.bulk_create(to_bulk_create)
         print("--- %s seconds Lapsed---" % (time.time() - start_time))
