@@ -9,7 +9,7 @@ def index(request):
 
 def upload_combos(request):
     start_time = time.time()
-    with open('toupload.csv', 'r') as csvfile:
+    with open('toupload.csv', 'r',encoding="utf8") as csvfile:
         lines = csvfile.readlines()
 
     chunks = [lines[x:x + 100] for x in range(0, len(lines), 1000)]
