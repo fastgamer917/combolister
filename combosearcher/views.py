@@ -1,10 +1,19 @@
 from django.http import HttpResponse
 from combosearcher.models import Combos
+from django.shortcuts import render
 import time
 
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+def search(request):
+    if request.method == "GET":
+        return render(request,'combosearcher/search-combos-form.html')
+    elif request.method == "POST":
+        search_term = request.POST.get('searchTerm','')
+        search_position = request.POST.get('searchPosition','')
+        return HttpResponse("Hello, world. You're at the polls index.")
 
 
 def upload_combos(request):
@@ -12,7 +21,7 @@ def upload_combos(request):
     with open('toupload.csv', 'r',encoding="utf8") as csvfile:
         lines = csvfile.readlines()
 
-    chunks = [lines[x:x + 100] for x in range(0, len(lines), 1000)]
+    chunks = [lines[x:x + 1000] for x in range(0, len(lines), 1000)]
     running_chunk = 0
     for chunk in chunks:
         running_chunk += 1
