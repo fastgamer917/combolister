@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from combosearcher.models import Combos
 from django.shortcuts import render
 import time
+from combosearcher.models import Combos
 
 
 def index(request):
@@ -13,7 +14,15 @@ def search(request):
     elif request.method == "POST":
         search_term = request.POST.get('searchTerm','')
         search_position = request.POST.get('searchPosition','')
-        return HttpResponse("Hello, world. You're at the polls index.")
+        if search_position=='url':
+            found_results = Combos.objects.filter(url__contains=search_term).values()
+        else:
+            found_results = Combos.objects.filter(username__contains=search_term).values()
+        context = {'found_results': found_results,
+                   'search_position': search_position,
+                   'search_term': search_term,
+                   'total_results':len(found_results)}
+        return render(request,'combosearcher/search-results-page.html',context=context)
 
 
 def upload_combos(request):
