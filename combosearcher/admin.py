@@ -6,17 +6,13 @@ from import_export.admin import ImportExportModelAdmin
 class CombosAdmin(ImportExportModelAdmin):
     search_fields = (
         "id",
-        "url",
-        "username",
-        "password",
+        "combo",
         "add_date",
         "source",
     )
     list_display = (
         "id",
-        "url",
-        "username",
-        "password",
+        "combo",
         "add_date",
         "source",
     )
