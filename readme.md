@@ -9,4 +9,6 @@
 ## Poetry Settings
 1. `poetry config virtualenvs.in-project true` 
 2. `poetry run python manage.py runserver`
-3. 
+
+## Run Migrations
+1. now since all setup, run migrations.
