@@ -6,10 +6,27 @@ import time
 from combosearcher.models import Combos
 import glob
 from django.conf import settings
-
+from .search_controller import search_folder_files
 
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
+
+def searchv2(request):
+    """
+    This search implements searching the keyword in all the files of folder instead of any db.
+    #TODO: Change combo folder location appropriately.
+    """
+    if request.method == "GET":
+        return render(request,'combosearcher/search-combos-form.html')
+    elif request.method == "POST":
+        folder_path_for_search = "<Combo folder location full path>"
+        search_term = request.POST.get('searchTerm','')
+        found_results = search_folder_files(folder_path_for_search, search_term)
+        context = {'found_results': found_results,
+                   'search_term': search_term,
+                   'total_results':len(found_results)}
+        return render(request,'combosearcher/search-results-page.html',context=context)
+
 
 def search(request):
     if request.method == "GET":
