@@ -1,5 +1,5 @@
 import os
-
+import time
 from django.http import HttpResponse
 from django.shortcuts import render
 import time
@@ -19,11 +19,13 @@ def searchv2(request):
     if request.method == "GET":
         return render(request,'combosearcher/search-combos-form.html')
     elif request.method == "POST":
+        start_time = time.time()
         folder_path_for_search = "<Combo folder location full path>"
         search_term = request.POST.get('searchTerm','')
         found_results = search_folder_files(folder_path_for_search, search_term)
         context = {'found_results': found_results,
                    'search_term': search_term,
+                   'exec_time': time.time() - start_time,
                    'total_results':len(found_results)}
         return render(request,'combosearcher/search-results-page.html',context=context)
 
