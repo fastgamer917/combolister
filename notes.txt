@@ -1,0 +1,10 @@
+To use celery along with multiprocessing:
+celery -A combolister worker --loglevel=info -P threads
+
+To run redis server:
+redis-server
+If any error in redis server, then `sudo service redis-server stop` and rerun above
+
+**dont forget to change number of valid combos & threads.
+** modify the code to first get number of cores in processor and put threads equal to cores
+

@@ -10,6 +10,9 @@ Django = "^5.0.6"
 requests = "^2.32.3"
 mysqlclient = "^2.2.4"
 django-import-export = "^4.1.0"
+celery = "^5.4.0"
+redis = "^5.1.1"
+django-admin-autoregister = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 

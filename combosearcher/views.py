@@ -1,15 +1,58 @@
+# TODO: Cleanup useless code from other branches
+
 import os
 import time
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import time
 from combosearcher.models import Combos
 import glob
 from django.conf import settings
 from .search_controller import search_folder_files
+from django.contrib.auth.decorators import login_required
+from .tasks import search_task
+from .models import SearchProgress, SearchResult
+from datetime import datetime
+
 
 def index(request):
+    #TODO; Add buttons that redirect to different pages
     return HttpResponse("Hello, world. You're at the polls index.")
+
+@login_required()
+def submit_search(request):
+    if request.method == 'GET':
+        return render(request,'combosearcher/submit-search.html')
+    if request.method == "POST":
+        search_term = request.POST.get('searchTerm',None)
+        if not search_term:
+            return render(request, 'combosearcher/submit-search.html')
+        requested_user = request.user
+        #create a search progress obj to update it later
+        search_progress_obj = SearchProgress.objects.create(
+            submitted_user=requested_user,
+            search_term=search_term,
+            submitted_time=datetime.now(),
+            search_status="In Progress",
+        )
+        search_task.delay(search_term,search_progress_obj.pk)
+        return redirect('search_progress')
+
+
+def search_progress(request):
+    all_searches_progress = SearchProgress.objects.all()
+    return render(request,'combosearcher/search_progress.html',context={"all_searches_progress":all_searches_progress})
+
+def search_results(request):
+    search_progress_id = request.GET.get('search_progress_id', None)
+    search_progress_obj = SearchProgress.objects.get(pk=search_progress_id)
+    search_results = SearchResult.objects.filter(search_id=search_progress_id)
+    context = {'found_results': search_results,
+               'search_term': search_progress_obj.search_term,
+               'exec_time': search_progress_obj.run_time,
+               'total_results': search_progress_obj.total_found}
+
+    return render(request,'combosearcher/search-results-page_v2.html',context=context)
 
 def searchv2(request):
     """

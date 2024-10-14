@@ -1,6 +1,7 @@
 import os
 import multiprocessing
 import queue as Queue
+from .models import LogsFolderPath
 
 def find_lines_with_keyword(file_path, file_name, keyword, output_queue):
     try:
@@ -16,7 +17,7 @@ def find_lines_with_keyword(file_path, file_name, keyword, output_queue):
 
 def process_files_in_folder(folder_path, keyword, num_processes=4):
     manager = multiprocessing.Manager()
-    output_queue = manager.Queue(maxsize=20000)  # Limit queue size to 20000 items
+    output_queue = manager.Queue(maxsize=100)  # Limit queue size to 20000 items
     processes = []
 
     for root, _, files in os.walk(folder_path):
@@ -53,4 +54,18 @@ def search_folder_files(folder_path:str,keyword:str)->list:
             "combo":combo,
             "source":file_name,
         })
+    return to_return_list
+
+# Usage example
+def search_folder_files_v2(keyword:str)->list:
+    folder_path_objs = LogsFolderPath.objects.filter(is_active=True)
+    num_processes = 15  # Adjust this based on your system's capabilities
+    to_return_list=[]
+    for folder_path_obj in folder_path_objs:
+        matches = process_files_in_folder(folder_path_obj.folder_path.strip(), keyword, num_processes)
+        for file_name, combo in matches:
+            to_return_list.append({
+                "combo":combo,
+                "source":file_name,
+            })
     return to_return_list
