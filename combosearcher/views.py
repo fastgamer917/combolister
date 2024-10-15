@@ -39,10 +39,12 @@ def submit_search(request):
         return redirect('search_progress')
 
 
+@login_required()
 def search_progress(request):
     all_searches_progress = SearchProgress.objects.all()
     return render(request,'combosearcher/search_progress.html',context={"all_searches_progress":all_searches_progress})
 
+@login_required()
 def search_results(request):
     search_progress_id = request.GET.get('search_progress_id', None)
     search_progress_obj = SearchProgress.objects.get(pk=search_progress_id)
@@ -55,6 +57,7 @@ def search_results(request):
 
     return render(request,'combosearcher/search-results-page_v2.html',context=context)
 
+@login_required()
 def delete_search_results(request):
     """Delete all findings of a particular search term"""
     search_progress_id = request.GET.get('search_progress_id', None)
@@ -63,6 +66,7 @@ def delete_search_results(request):
     search_progress_obj.delete()
     return redirect('search_progress')
 
+@login_required()
 def searchv2(request):
     """
     This search implements searching the keyword in all the files of folder instead of any db.
@@ -82,6 +86,7 @@ def searchv2(request):
         return render(request,'combosearcher/search-results-page.html',context=context)
 
 
+@login_required()
 def search(request):
     if request.method == "GET":
         return render(request,'combosearcher/search-combos-form.html')
@@ -94,6 +99,7 @@ def search(request):
         return render(request,'combosearcher/search-results-page.html',context=context)
 
 
+@login_required()
 def upload_combos(request):
     if request.method == "GET":
         return render(request,"combosearcher/upload-combos.html")
