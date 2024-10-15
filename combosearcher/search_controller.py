@@ -68,4 +68,16 @@ def search_folder_files_v2(keyword:str)->list:
                 "combo":combo,
                 "source":file_name,
             })
-    return to_return_list
+
+    #remove duplicate findings
+    seen = set()  # Set to track seen "combo" values
+    unique_data = []  # List to store unique dictionaries
+
+    for item in to_return_list:
+        combo = item["combo"]
+        if combo not in seen:
+            unique_data.append(item)
+            seen.add(combo)
+
+    # unique_data now contains dictionaries with unique "combo" values
+    return unique_data
