@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--Base topnav copied from geeksforgeeks navbar tutorial-->
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+</script>
+<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js">
+</script>
+<script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js">
+</script>
+<style>
+.dropdown {
+position: static !important;
+}
+
+.dropdown-menu {
+box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15)!important;
+margin-top: 0px !important;
+width: 100% !important;
+}
+</style>
+</head>
+
+<body>
+<div class="fluid-container">
+<nav class="navbar navbar-expand-lg navbar-dark
+justify-content-between text-white"
+style="background-color: green;">
+<a class="navbar-brand" href="#">
+<img src=
+"https://www.geeksforgeeks.org/wp-content/uploads/gfg_transparent_white_small.png"
+width="30" height="30"
+class="d-inline-block align-top" alt="">
+TF Tech
+</a>
+<button class="navbar-toggler "
+type="button" data-toggle="collapse"
+data-target="#navbarNavDropdown01"
+aria-controls="navbarNavDropdown01"
+aria-expanded="false"
+aria-label="Toggle navigation"
+style="outline-color:#fff">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse"
+id="navbarNavDropdown01">
+
+<ul class="navbar-nav ">
+
+<!--dropdown item of menu-->
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle"
+href="#" id="navbarDropdown"
+role="button" data-toggle="dropdown"
+aria-haspopup="true"
+aria-expanded="false">
+Combo Lister
+</a>
+
+<!--dropdown sub items of menu-->
+<div class="dropdown-menu"
+aria-labelledby="navbarDropdown">
+<a class="dropdown-item" href="/combosearcher/submit_search">
+Submit New Search
+</a>
+    <div class="dropdown-divider"></div>
+<a class="dropdown-item" href="/combosearcher/search_progress">
+Search Progress
+</a>
+</div>
+</li>
+</ul>
+
+<!--Form item of menu for search purpose-->
+<button class="btn btn-success my-4 my-sm-2 ml-auto" onclick="window.open(location.origin+'/admin')"
+type="submit">Admin</button>
+</div>
+</nav>
+</center>
+</div>
+<div id="body">
+    {% block content %}
+{% endblock %}
+</div>
+</body>
+
+</html>

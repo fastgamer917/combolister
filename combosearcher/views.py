@@ -17,7 +17,7 @@ from datetime import datetime
 
 def index(request):
     #TODO; Add buttons that redirect to different pages
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request,'base/base.html')
 
 @login_required()
 def submit_search(request):
@@ -50,9 +50,18 @@ def search_results(request):
     context = {'found_results': search_results,
                'search_term': search_progress_obj.search_term,
                'exec_time': search_progress_obj.run_time,
-               'total_results': search_progress_obj.total_found}
+               'total_results': search_progress_obj.total_found,
+               'search_progress_id': search_progress_id,}
 
     return render(request,'combosearcher/search-results-page_v2.html',context=context)
+
+def delete_search_results(request):
+    """Delete all findings of a particular search term"""
+    search_progress_id = request.GET.get('search_progress_id', None)
+    search_progress_obj = SearchProgress.objects.get(pk=search_progress_id)
+    SearchResult.objects.filter(search_id=search_progress_id).delete()
+    search_progress_obj.delete()
+    return redirect('search_progress')
 
 def searchv2(request):
     """

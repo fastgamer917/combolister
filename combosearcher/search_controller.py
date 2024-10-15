@@ -17,7 +17,7 @@ def find_lines_with_keyword(file_path, file_name, keyword, output_queue):
 
 def process_files_in_folder(folder_path, keyword, num_processes=4):
     manager = multiprocessing.Manager()
-    output_queue = manager.Queue(maxsize=100)  # Limit queue size to 20000 items
+    output_queue = manager.Queue(maxsize=1000)  # Limit queue size to 20000 items
     processes = []
 
     for root, _, files in os.walk(folder_path):
@@ -46,7 +46,7 @@ def process_files_in_folder(folder_path, keyword, num_processes=4):
 
 # Usage example
 def search_folder_files(folder_path:str,keyword:str)->list:
-    num_processes = 15  # Adjust this based on your system's capabilities
+    num_processes = multiprocessing.cpu_count()  # Adjust this based on your system's capabilities
     to_return_list=[]
     matches = process_files_in_folder(folder_path, keyword, num_processes)
     for file_name, combo in matches:
